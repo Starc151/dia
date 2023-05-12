@@ -1,5 +1,7 @@
 package main
 
+import "github.com/Starc151/dia/calculation"
+
 func main() {
-	input()
+	calculation.GetGlucose()
 }
