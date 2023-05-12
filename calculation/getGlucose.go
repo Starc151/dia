@@ -24,5 +24,5 @@ func GetGlucose() {
 	if xe != 0{
 		bolus += carbohydrateCoefficient * xe
 	}
-	fmt.Printf("%f", bolus)
+	fmt.Printf("%.1f", bolus)
 }
