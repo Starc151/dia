@@ -1,28 +1,21 @@
 package calculation
 
-import (
-	"fmt"
-)
+import "fmt"
 
-const (
-	idealGlucose            = 8.0 // Идеальный уровень глюкозы
-	sensitivityCoefficient  = 4.0 // Чувствительность к инсулину
-	carbohydrateCoefficient = 1.0 // Углеводный коэффициент
-)
-
-// Инсулин на коррекцию уровня глюкозы = (текущий - идеальный) / Чувствительность к инсулину
-// Доза инсулина на еду = Углеводный коэффициент * Количество ХЕ
+const idealGlucose float64 = 8.0 // Идеальный уровень глюкозы
 
 func GetGlucose() {
 	glucose := 0.0
 	xe := 0.0
-	fmt.Print("Результат измерения: ")
+	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
+
+	fmt.Print("Введите результат измерения: ")
 	fmt.Scanln(&glucose)
-	fmt.Print("XE: ")
+	fmt.Print("Введите XE: ")
 	fmt.Scanln(&xe)
-	bolus := (glucose - idealGlucose) / sensitivityCoefficient
-	if xe != 0{
-		bolus += carbohydrateCoefficient * xe
+	bolus := (glucose - idealGlucose) / sensitivityCoeff
+	if xe != 0.0{
+		bolus += carbohydrateCoeff * xe
 	}
 	fmt.Printf("%.1f", bolus)
 }
