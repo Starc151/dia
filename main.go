@@ -1,7 +1,7 @@
 package main
 
-import "github.com/Starc151/dia/calculation"
+import "github.com/Starc151/dia/bolus"
 
 func main() {
-	calculation.GetGlucose()
+	bolus.Bolus()
 }

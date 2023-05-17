@@ -1,4 +1,4 @@
-package calculation
+package bolus
 
 import "time"
 

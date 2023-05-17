@@ -1,21 +1,17 @@
-package calculation
+package bolus
 
 import "fmt"
 
 const idealGlucose float64 = 8.0 // Идеальный уровень глюкозы
 
-func GetGlucose() {
-	glucose := 0.0
-	xe := 0.0
+func Bolus() {
 	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
-
-	fmt.Print("Введите результат измерения: ")
-	fmt.Scanln(&glucose)
-	fmt.Print("Введите XE: ")
-	fmt.Scanln(&xe)
+	glucose := getRes("Уровень глюкозы: ")
+	xe := getRes("XE: ")
 	bolus := (glucose - idealGlucose) / sensitivityCoeff
 	if xe != 0.0{
 		bolus += carbohydrateCoeff * xe
 	}
-	fmt.Printf("%.1f", bolus)
+
+	fmt.Printf("Рекомендуемый болюс: %.1f", bolus)
 }
