@@ -2,7 +2,11 @@ package bolus
 
 import "fmt"
 
-const idealGlucose float64 = 8.0 // Идеальный уровень глюкозы
+const (
+	lowerGlucose float64 = 7.0
+	upperGlucose float64 = 9.0
+	idealGlucose = (lowerGlucose + upperGlucose) / 2 // Идеальный уровень глюкозы
+)
 
 func Bolus() {
 	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
