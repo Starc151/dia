@@ -7,7 +7,7 @@ import "time"
 func getCoefficients() (float64, float64){
 	nowTime := time.Now()
 	sensitivityCoeff  := 4.0 // Чувствительность к инсулину
-	carbohydrateCoeff := 1.25 // Углеводный коэффициент
+	carbohydrateCoeff := 1.25 // Углеводный коэффициент (ед / 1хе)
 
 	if "10:31" <= nowTime.Format("15:04") && nowTime.Format("15:04") <= "13:00"{
 		sensitivityCoeff  = 3.5

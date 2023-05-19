@@ -10,8 +10,14 @@ const (
 
 func Bolus() {
 	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
+	(idealGlucose - glucose) / (sensitivityCoeff * carbohydrateCoeff)
 	glucose := getRes("Уровень глюкозы: ")
 	xe := getRes("XE: ")
+
+	if glucose <= lowerGlucose - 1.0 {
+		fmt.Println("Рекомендуется перекусить на: ". )
+	}
+
 	bolus := (glucose - idealGlucose) / sensitivityCoeff
 	if xe != 0.0{
 		bolus += carbohydrateCoeff * xe
