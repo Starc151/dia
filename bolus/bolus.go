@@ -25,14 +25,15 @@ func Bolus() {
 			bolus += carbohydrateCoeff * xe
 			fmt.Printf("Рекомендуемый болюс: %.1f", bolus)
 		} else {
-			fmt.Println("Рекомендуется перекусить на: ", corrctXe, "XE")
+			fmt.Printf("Рекомендуется перекусить на: %.1f XE", corrctXe)
 		}
+	} else {
+		if glucose > idealGlucose + 0.5 {
+			bolus = corectGlucose / sensitivityCoeff
+		}
+		if xe != 0.0{
+			bolus += carbohydrateCoeff * xe
+		}
+		fmt.Printf("Рекомендуемый болюс: %.1f", bolus)
 	}
-
-	// bolus = corectGlucose / sensitivityCoeff
-	// if xe != 0.0{
-	// 	bolus += carbohydrateCoeff * xe
-	// }
-
-	// fmt.Printf("Рекомендуемый болюс: %.1f", bolus)
 }
