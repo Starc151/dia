@@ -14,6 +14,9 @@ const (
 func Bolus() {
 	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
 	glucose := getRes("Уровень глюкозы: ")
+	if glucose == 0.0 {
+		glucose = idealGlucose
+	}
 	xe := getRes("XE: ")
 	bolus := 0.0
 	corectGlucose := math.Abs(glucose - idealGlucose)
