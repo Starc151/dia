@@ -1,7 +1,7 @@
 package main
 
-import "github.com/Starc151/dia/bolus"
+import "github.com/Starc151/dia/fyne"
 
 func main() {
-	bolus.Bolus()
+	fyne.Show()
 }

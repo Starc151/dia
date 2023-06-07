@@ -1,4 +1,4 @@
-package bolus
+package bolusPack
 
 import "time"
 
