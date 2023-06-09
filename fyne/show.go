@@ -13,9 +13,9 @@ func Show() {
 	w := a.NewWindow("Рассчёт болюса")
 
 	glucoseText := widget.NewLabel("Уровень глюкозы: ")
-	glucose := widget.NewEntry()
+	glucose := onlyNumsn()
 	xeText := widget.NewLabel("XE: ")
-	xe := widget.NewEntry()
+	xe := onlyNumsn()
 	bolus := widget.NewLabel("")
 
 	getBolus := widget.NewButton("Рассчитать болюс",
