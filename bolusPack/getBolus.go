@@ -14,7 +14,7 @@ const (
 	idealGlucose = (lowerGlucose + upperGlucose) / 2
 )
 func GetBolus(glucoseStr, xeStr string) string {
-	sensitivityCoeff, carbohydrateCoeff := getCoefficients()
+	sensitivity, carbohydrate := getCoefficients()
 	glucose := assist.ToFloat(glucoseStr)
 	xe := assist.ToFloat(xeStr)
 	
@@ -23,23 +23,23 @@ func GetBolus(glucoseStr, xeStr string) string {
 	}
 	bolus := 0.0
 	corectGlucose := math.Abs(glucose - idealGlucose)
-	corrctXe := corectGlucose / (sensitivityCoeff * carbohydrateCoeff)
+	corrctXe := corectGlucose / (sensitivity * carbohydrate)
 	
 	if glucose <= lowerGlucose - 1.0 {
 		if xe != 0.0 {
 			xe -= corrctXe
-			bolus += carbohydrateCoeff * xe
-			return fmt.Sprintf("Рекомендуемый болюс: %.1f", bolus)
+			bolus += carbohydrate * xe
+			return fmt.Sprintf("Болюс: %.1f", bolus)
 		} else {
-			return fmt.Sprintf("Рекомендуется перекусить на: %.1f XE", corrctXe)
+			return fmt.Sprintf("ГИПА: %.1f XE", corrctXe)
 		}
 	} else {
 		if glucose > idealGlucose + 0.5 {
-			bolus = corectGlucose / sensitivityCoeff
+			bolus = corectGlucose / sensitivity
 		}
 		if xe != 0.0{
-			bolus += carbohydrateCoeff * xe
+			bolus += carbohydrate * xe
 		}
-		return fmt.Sprintf("Рекомендуемый болюс: %.1f", bolus)
+		return fmt.Sprintf("Болюс: %.1f", bolus)
 	}
 }
