@@ -1,7 +1,7 @@
 package fyne
 
 import (
-	"github.com/Starc151/dia/bolusPack"
+	bl "github.com/Starc151/dia/pkg/bolus"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -11,9 +11,9 @@ import (
 
 func Show() {
 	a := app.New()
-	w := a.NewWindow("Рассчёт болюса")
+	w := a.NewWindow("BL")
 	// w.Resize(fyne.NewSize(200, 200))
-	icon, _ := fyne.LoadResourceFromPath("icon.png")
+	icon, _ := fyne.LoadResourceFromPath("pkg/fyne/icon.png")
 	w.SetIcon(icon)
 
 	glucoseText := widget.NewLabel("GL: ")
@@ -26,7 +26,7 @@ func Show() {
 	getBolus := widget.NewButton("Рассчитать болюс",
 		func () {
 			bolus.SetText(
-				bolusPack.GetBolus(
+				bl.GetBolus(
 					glucose.Text,
 					xe.Text,
 				),

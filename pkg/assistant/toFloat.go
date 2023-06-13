@@ -1,4 +1,4 @@
-package assistantPack
+package assistant
 
 import (
 	"strconv"

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/Starc151/dia/fyne"
+import "github.com/Starc151/dia/pkg/fyne"
 
 func main() {
 	fyne.Show()

@@ -1,10 +1,10 @@
-package bolusPack
+package bolus
 
 import (
 	"fmt"
 	"math"
 
-	assist "github.com/Starc151/dia/assistantPack"
+	as "github.com/Starc151/dia/pkg/assistant"
 )
 
 const (
@@ -15,8 +15,8 @@ const (
 )
 func GetBolus(glucoseStr, xeStr string) string {
 	sensitivity, carbohydrate := getCoefficients()
-	glucose := assist.ToFloat(glucoseStr)
-	xe := assist.ToFloat(xeStr)
+	glucose := as.ToFloat(glucoseStr)
+	xe := as.ToFloat(xeStr)
 	
 	if glucose == 0.0 {
 		glucose = idealGlucose
