@@ -1,0 +1,3 @@
+--yc-token-file \token\starc.txt
+
+--sa-key-file \token\starc.json
