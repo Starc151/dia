@@ -20,7 +20,7 @@ func Connect() {
 	} else {
 		fmt.Println("CONNECTED!")
 	}
-	// createTable(db, ctx)
 
 	defer db.Close(ctx)
 }
+
