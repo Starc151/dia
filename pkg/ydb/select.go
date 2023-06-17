@@ -3,19 +3,23 @@ package ydb
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/ydb-platform/ydb-go-sdk/v3"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result/named"
 )
 
-func selectFromDb(db *ydb.Driver, ctx context.Context) {
-	const query = `SELECT * FROM users;`
+func Select(query string) {
+	db, ctx, cancel := connect()
+	defer cancel()
+	defer db.Close(ctx)
+
     //столбцы таблицы
     var user struct{
-        id_user     uint64
-        name_user   string
-        tst         string
+        idT1    uint64
+        Col1T1  string
+        Col2T1  time
     }
 
     db.Table().Do(ctx, func(ctx context.Context, s table.Session) (err error) {
@@ -29,7 +33,7 @@ func selectFromDb(db *ydb.Driver, ctx context.Context) {
 
     for res.NextRow() {
         res.ScanNamed(
-            named.Required("id_user", &user.id_user),
+            named.OptionalWithDefault("id_user", &user.id_user),
             named.OptionalWithDefault("name_user", &user.name_user),
             named.OptionalWithDefault("tst", &user.tst),
         )

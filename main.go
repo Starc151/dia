@@ -1,7 +1,11 @@
 package main
 
-import "github.com/Starc151/dia/pkg/fyne"
+import (
+	// "github.com/Starc151/dia/pkg/fyne"
+	"github.com/Starc151/dia/pkg/ydb"
+)
 
 func main() {
-	fyne.Show()
+	// fyne.Show()
+	ydb.Select(`SELECT * FROM test1;`)
 }

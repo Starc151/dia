@@ -4,14 +4,16 @@ import (
 	"context"
 	"path"
 
-	"github.com/ydb-platform/ydb-go-sdk/v3"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/options"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/types"
 )
 
-func createTable(db *ydb.Driver, ctx context.Context) {
-	nameDb := "User1"
+func CreateTable(nameDb string) {
+	db, ctx, cancel := connect()
+	defer cancel()
+	defer db.Close(ctx)
+
 	db.Table().Do(ctx,
 		func(ctx context.Context, s table.Session) (err error) {
 		  return s.CreateTable(ctx, path.Join(db.Name(), nameDb),
