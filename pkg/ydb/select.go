@@ -3,9 +3,8 @@ package ydb
 import (
 	"context"
 	"fmt"
-	"time"
+	// "time"
 
-	"github.com/ydb-platform/ydb-go-sdk/v3"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result/named"
 )
@@ -17,9 +16,9 @@ func Select(query string) {
 
     //столбцы таблицы
     var user struct{
-        idT1    uint64
-        Col1T1  string
-        Col2T1  time
+        idT2    uint64
+        Col1T2  string
+        Col2T2  string
     }
 
     db.Table().Do(ctx, func(ctx context.Context, s table.Session) (err error) {
@@ -33,11 +32,11 @@ func Select(query string) {
 
     for res.NextRow() {
         res.ScanNamed(
-            named.OptionalWithDefault("id_user", &user.id_user),
-            named.OptionalWithDefault("name_user", &user.name_user),
-            named.OptionalWithDefault("tst", &user.tst),
+            named.OptionalWithDefault("idT2", &user.idT2),
+            named.OptionalWithDefault("Col1T2", &user.Col1T2),
+            named.OptionalWithDefault("Col2T2", &user.Col2T2),
         )
-        fmt.Printf("id_user=\"%d\", name_user=\"%s\", tst=\"%s\"\n", user.id_user, user.name_user, user.tst)
+        fmt.Printf("idT2=\"%d\", Col1T2=\"%s\", Col2T2=\"%s\"\n", user.idT2, user.Col1T2, user.Col2T2)
     }
     return res.Err() // for driver retry if not nil
     })

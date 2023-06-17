@@ -7,5 +7,5 @@ import (
 
 func main() {
 	// fyne.Show()
-	ydb.Select(`SELECT * FROM test1;`)
+	ydb.Select(`SELECT * FROM test2;`)
 }
