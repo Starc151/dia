@@ -12,14 +12,14 @@ type User struct {
 }
 
 func RegUser() {
-	user := User{
-		Id_user:  1,
-		NName:    "Starc",
-		FName:    "Aleksey",
-		LName:    "Paskov",
-		Email:    "dr.Starc@ya.ru",
-		Password: "123bH987",
-	}
-	ydb.CreateTable(user.NName)
+	// user := User{
+	// 	NName:    "Starc",
+	// 	FName:    "Aleksey",
+	// 	LName:    "Paskov",
+	// 	Email:    "dr.Starc@ya.ru",
+	// 	Password: "123bH987",
+	// }
+	
+	// ydb.CreateTableRes(user.NName)
+	ydb.Insert()
 }
-
