@@ -1,11 +1,9 @@
 package main
 
 import (
-	// "github.com/Starc151/dia/pkg/fyne"
-	"github.com/Starc151/dia/pkg/ydb"
+	"github.com/Starc151/dia/pkg/fyne"
 )
 
 func main() {
-	// fyne.Show()
-	ydb.Insert()
+	fyne.Show()
 }

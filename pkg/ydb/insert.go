@@ -13,7 +13,7 @@ func Insert(res map[string]float32) {
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)
-	t := uint32(time.Now().Unix())+10800
+	t := uint32(time.Now().Unix())+10800 //поправка на часовой пояс Мск
 	err := db.Table().DoTx(ctx,
 		func(ctx context.Context, tx table.TransactionActor) (err error) {
 			res, err := tx.Execute(ctx, `
