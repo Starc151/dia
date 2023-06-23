@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func ToFloat(in string) float32 {
+func ToFloat(in string) float64 {
 	in = strings.ReplaceAll(in, ",", ".")
-	out, _ := strconv.ParseFloat(in, 32)
+	out, _ := strconv.ParseFloat(in, 64)
 	return out
 }

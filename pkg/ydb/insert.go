@@ -9,7 +9,7 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/types"
 )
 
-func Insert(res map[string]float32) {
+func Insert(res map[string]float64) {
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)
@@ -26,9 +26,9 @@ func Insert(res map[string]float32) {
 		`,
 				table.NewQueryParameters(
 					table.ValueParam("$date", types.DatetimeValue(t)),
-					table.ValueParam("$bolus", types.FloatValue(res["bolus"])),
-					table.ValueParam("$glucose", types.FloatValue(res["glucose"])),
-					table.ValueParam("$xe", types.FloatValue(res["xe"])),
+					table.ValueParam("$bolus", types.FloatValue(float32(res["bolus"]))),
+					table.ValueParam("$glucose", types.FloatValue(float32(res["glucose"]))),
+					table.ValueParam("$xe", types.FloatValue(float32(res["xe"]))),
 				),
 			)
 			if err != nil {
