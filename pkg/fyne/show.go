@@ -12,13 +12,13 @@ import (
 func Show() {
 	a := app.New()
 	w := a.NewWindow("BL")
-	// w.Resize(fyne.NewSize(200, 200))
+	// w.Resize(fyne.NewSize(200, 0))
+	// w.SetFixedSize(true)
 	icon, _ := fyne.LoadResourceFromPath("pkg/fyne/icon.png")
 	w.SetIcon(icon)
 
 	glucoseText := widget.NewLabel("GL: ")
 	glucose := onlyNumsn()
-	
 	xeText := widget.NewLabel("XE: ")
 	xe := onlyNumsn()
 	bolus := widget.NewLabel("")
@@ -33,15 +33,22 @@ func Show() {
 			)
 		},
 	)
-	w.SetContent(
-		container.NewGridWithRows(3,
-			container.NewGridWithColumns(4,
-				glucoseText, glucose,
-				xeText, xe,
+	tabs := container.NewAppTabs(
+		container.NewTabItem(
+			"Bolus",
+			container.NewGridWithRows(3,
+				container.NewGridWithColumns(4,
+					glucoseText, glucose,
+					xeText, xe,
+				),
+				getBolus,
+				bolus,
 			),
-			getBolus,
-			bolus,
 		),
+		container.NewTabItem("History", widget.NewLabel("asd")),
+	)
+	w.SetContent(
+		tabs,
 	)
 	w.ShowAndRun()
 }

@@ -13,7 +13,7 @@ func connect() (*ydb.Driver, context.Context, context.CancelFunc){
 	
 	db, err := ydb.Open(ctx,
 		"grpcs://ydb.serverless.yandexcloud.net:2135/ru-central1/b1gvs9nokmiitnhv21jt/etn1rjbm3bjs0a8emhjd",
-		yc.WithServiceAccountKeyFileCredentials("pkg/ydb/token/starc.json"),
+		yc.WithServiceAccountKeyFileCredentials("token/starc.json"),
 	)
 	if err != nil {
 		fmt.Println("No connect")
