@@ -41,6 +41,7 @@ func GetBolus(glucoseStr, xeStr string) string {
 	} else {
 		if indicators["glucose"] > idealGlucose + 0.5 {
 			indicators["bolus"] = corectGlucose / sensitivity
+			indicators["bolus"] = math.Round(indicators["bolus"]*10)/10
 		}
 		if indicators["xe"] != 0.0{
 			indicators["bolus"] += carbohydrate * indicators["xe"]

@@ -2,42 +2,46 @@ package ydb
 
 import (
 	"context"
-	"fmt"
-	// "time"
+	"time"
 
 	"github.com/ydb-platform/ydb-go-sdk/v3/table"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result/named"
 )
+type Table struct{
+    Date    time.Time
+    Bolus   float32
+    Glucose float32
+    Xe      float32
+} 
 
-func Select(query string) {
+func Select() []Table {
+    query := "SELECT * FROM res;"
+    loc, _ := time.LoadLocation("Europe/London")
+    time.Local = loc
+    resList := []Table{}
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)
 
-    //столбцы таблицы
-    var user struct{
-        idT2    uint64
-        Col1T2  string
-        Col2T2  string
-    }
-
     db.Table().Do(ctx, func(ctx context.Context, s table.Session) (err error) {
-    _, res, _ := s.Execute(ctx, table.DefaultTxControl(), query, nil)
+        _, res, _ := s.Execute(ctx, table.DefaultTxControl(), query, nil)
 
-    defer res.Close()
+        defer res.Close()
 
-    if err = res.NextResultSetErr(ctx); err != nil {
-        return err
-    }
-
-    for res.NextRow() {
-        res.ScanNamed(
-            named.OptionalWithDefault("idT2", &user.idT2),
-            named.OptionalWithDefault("Col1T2", &user.Col1T2),
-            named.OptionalWithDefault("Col2T2", &user.Col2T2),
-        )
-        fmt.Printf("idT2=\"%d\", Col1T2=\"%s\", Col2T2=\"%s\"\n", user.idT2, user.Col1T2, user.Col2T2)
-    }
-    return res.Err() // for driver retry if not nil
+        if err = res.NextResultSetErr(ctx); err != nil {
+            return err
+        }
+        var Table Table
+        for res.NextRow() {
+            res.ScanNamed(
+                named.OptionalWithDefault("date", &Table.Date),
+                named.OptionalWithDefault("bolus", &Table.Bolus	),
+                named.OptionalWithDefault("glucose", &Table.Glucose),
+                named.OptionalWithDefault("xe", &Table.Xe),
+            )
+            resList = append(resList, Table)
+        }
+        return res.Err()
     })
+    return resList
 }

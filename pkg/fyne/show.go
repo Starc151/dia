@@ -1,7 +1,10 @@
 package fyne
 
 import (
+	"fmt"
+
 	bl "github.com/Starc151/dia/pkg/bolus"
+	"github.com/Starc151/dia/pkg/ydb"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -33,6 +36,9 @@ func Show() {
 			)
 		},
 	)
+	getREsult := ydb.Select()
+	t := fmt.Sprint(getREsult)
+	
 	tabs := container.NewAppTabs(
 		container.NewTabItem(
 			"Bolus",
@@ -45,7 +51,7 @@ func Show() {
 				bolus,
 			),
 		),
-		container.NewTabItem("History", widget.NewLabel("asd")),
+		container.NewTabItem("History", widget.NewLabel(t)),
 	)
 	w.SetContent(
 		tabs,
