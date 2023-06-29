@@ -10,6 +10,9 @@ import (
 )
 
 func Insert(res map[string]float64) {
+	loc, _ := time.LoadLocation("Europe/Moscow")
+    time.Local = loc
+
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)

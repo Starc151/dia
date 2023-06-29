@@ -16,7 +16,7 @@ type Table struct{
 
 func Select() []Table {
     query := "SELECT * FROM res;"
-    loc, _ := time.LoadLocation("Europe/London")
+    loc, _ := time.LoadLocation("Europe/GMT")
     time.Local = loc
     resList := []Table{}
 	db, ctx, cancel := connect()
