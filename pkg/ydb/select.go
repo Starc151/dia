@@ -43,5 +43,8 @@ func Select() []Table {
         }
         return res.Err()
     })
+    for i, j := 0, len(resList)-1; i < j; i, j = i+1, j-1 {
+        resList[i], resList[j] = resList[j], resList[i]
+    }
     return resList
 }

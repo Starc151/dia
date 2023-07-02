@@ -25,6 +25,14 @@ func Show() {
 	xeText := widget.NewLabel("XE: ")
 	xe := onlyNumsn()
 	bolus := widget.NewLabel("")
+	resultYdb := ydb.Select()
+	history := " Time/Date | GL | ХЕ | BL\n"
+	for k, v := range resultYdb {
+		if k < 2 {
+			t := fmt.Sprint(v.Date.Format("15:04 2/Jan"), " | ", v.Glucose, " | ", v.Xe, " | ", v.Bolus)
+			history += t + "\n"
+		}
+	}
 
 	getBolus := widget.NewButton("Рассчитать болюс",
 		func () {
@@ -36,9 +44,7 @@ func Show() {
 			)
 		},
 	)
-	getREsult := ydb.Select()
-	t := fmt.Sprint(getREsult)
-	
+
 	tabs := container.NewAppTabs(
 		container.NewTabItem(
 			"Bolus",
@@ -51,7 +57,7 @@ func Show() {
 				bolus,
 			),
 		),
-		container.NewTabItem("History", widget.NewLabel(t)),
+		container.NewTabItem("History", widget.NewLabel(history)),
 	)
 	w.SetContent(
 		tabs,
