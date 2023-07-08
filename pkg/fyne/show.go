@@ -26,11 +26,18 @@ func Show() {
 	xe := onlyNumsn()
 	bolus := widget.NewLabel("")
 	resultYdb := ydb.Select()
-	history := " Time/Date | GL | ХЕ | BL\n"
-	for k, v := range resultYdb {
-		if k < 2 {
-			t := fmt.Sprint(v.Date.Format("15:04 2/Jan"), " | ", v.Glucose, " | ", v.Xe, " | ", v.Bolus)
-			history += t + "\n"
+	history := ""
+	history += fmt.Sprint(resultYdb[0].Date.Format("02/Jan"), "\n")
+	for i, day := 0, 1; true; i++ {
+		if resultYdb[i].Date.Format("02/Jan") == resultYdb[i+1].Date.Format("02/Jan"){
+			history += fmt.Sprint(resultYdb[i].Date.Format("15:04"), resultYdb[i].Glucose, resultYdb[i].Xe, resultYdb[i].Bolus, "\n")
+		} else{
+			history += fmt.Sprint(resultYdb[i].Date.Format("15:04"), resultYdb[i].Glucose, resultYdb[i].Xe, resultYdb[i].Bolus,  "\n")
+			day ++
+			if day > 2{
+				break
+			}
+			history += fmt.Sprint(resultYdb[i+1].Date.Format("02/Jan"), "\n")
 		}
 	}
 

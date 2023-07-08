@@ -15,7 +15,6 @@ type Table struct{
 } 
 
 func Select() []Table {
-    query := "SELECT * FROM res;"
     loc, _ := time.LoadLocation("Europe/GMT")
     time.Local = loc
     resList := []Table{}
@@ -24,7 +23,7 @@ func Select() []Table {
 	defer db.Close(ctx)
 
     db.Table().Do(ctx, func(ctx context.Context, s table.Session) (err error) {
-        _, res, _ := s.Execute(ctx, table.DefaultTxControl(), query, nil)
+        _, res, _ := s.Execute(ctx, table.DefaultTxControl(), "SELECT * FROM res;", nil)
 
         defer res.Close()
 
@@ -46,5 +45,6 @@ func Select() []Table {
     for i, j := 0, len(resList)-1; i < j; i, j = i+1, j-1 {
         resList[i], resList[j] = resList[j], resList[i]
     }
+    
     return resList
 }
