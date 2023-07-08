@@ -40,8 +40,8 @@ func Show() {
 			history += fmt.Sprint(resultYdb[i+1].Date.Format("02/Jan"), "\n")
 		}
 	}
-
-	getBolus := widget.NewButton("Рассчитать болюс",
+	getBolusBtnVis := func ()  {}
+	getBolusBtn := widget.NewButton("Рассчитать болюс",
 		func () {
 			bolus.SetText(
 				bl.GetBolus(
@@ -49,9 +49,12 @@ func Show() {
 					xe.Text,
 				),
 			)
+			getBolusBtnVis()
 		},
 	)
-
+	getBolusBtnVis = func ()  {
+		getBolusBtn.Disable()
+	}
 	tabs := container.NewAppTabs(
 		container.NewTabItem(
 			"Bolus",
@@ -60,7 +63,7 @@ func Show() {
 					glucoseText, glucose,
 					xeText, xe,
 				),
-				getBolus,
+				getBolusBtn,
 				bolus,
 			),
 		),
