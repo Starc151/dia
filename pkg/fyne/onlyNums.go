@@ -41,6 +41,6 @@ func (e *numericalEntry) Keyboard() mobile.KeyboardType {
 	return mobile.NumberKeyboard
 }
 
-func onlyNumsn() *numericalEntry {
+func onlyNums() *numericalEntry {
 	return newNumericalEntry()
 }

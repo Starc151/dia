@@ -1,10 +1,7 @@
 package fyne
 
 import (
-	"fmt"
-
 	bl "github.com/Starc151/dia/pkg/bolus"
-	"github.com/Starc151/dia/pkg/ydb"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -21,25 +18,11 @@ func Show() {
 	w.SetIcon(icon)
 
 	glucoseText := widget.NewLabel("GL: ")
-	glucose := onlyNumsn()
+	glucose := onlyNums()
 	xeText := widget.NewLabel("XE: ")
-	xe := onlyNumsn()
+	xe := onlyNums()
 	bolus := widget.NewLabel("")
-	resultYdb := ydb.Select()
-	history := ""
-	history += fmt.Sprint(resultYdb[0].Date.Format("02/Jan"), "\n")
-	for i, day := 0, 1; true; i++ {
-		if resultYdb[i].Date.Format("02/Jan") == resultYdb[i+1].Date.Format("02/Jan"){
-			history += fmt.Sprint(resultYdb[i].Date.Format("15:04"), resultYdb[i].Glucose, resultYdb[i].Xe, resultYdb[i].Bolus, "\n")
-		} else{
-			history += fmt.Sprint(resultYdb[i].Date.Format("15:04"), resultYdb[i].Glucose, resultYdb[i].Xe, resultYdb[i].Bolus,  "\n")
-			day ++
-			if day > 2{
-				break
-			}
-			history += fmt.Sprint(resultYdb[i+1].Date.Format("02/Jan"), "\n")
-		}
-	}
+	history := widget.NewLabel(bl.GetHistory())
 	getBolusBtnVis := func ()  {}
 	getBolusBtn := widget.NewButton("Рассчитать болюс",
 		func () {
@@ -50,11 +33,13 @@ func Show() {
 				),
 			)
 			getBolusBtnVis()
+			history.SetText(bl.GetHistory())
 		},
 	)
 	getBolusBtnVis = func ()  {
 		getBolusBtn.Disable()
 	}
+
 	tabs := container.NewAppTabs(
 		container.NewTabItem(
 			"Bolus",
@@ -67,7 +52,7 @@ func Show() {
 				bolus,
 			),
 		),
-		container.NewTabItem("History", widget.NewLabel(history)),
+		container.NewTabItem("History", history),
 	)
 	w.SetContent(
 		tabs,
