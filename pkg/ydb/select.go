@@ -8,7 +8,8 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/result/named"
 )
 type Table struct{
-    Date    time.Time
+    Date    string
+    Time    string
     Bolus   float32
     Glucose float32
     Xe      float32
@@ -17,7 +18,9 @@ type Table struct{
 func Select() []Table {
     loc, _ := time.LoadLocation("Europe/GMT")
     time.Local = loc
-    resList := []Table{}
+    dateTime := time.Now()
+    resYDB := []Table{}
+    
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)
@@ -33,18 +36,19 @@ func Select() []Table {
         var Table Table
         for res.NextRow() {
             res.ScanNamed(
-                named.OptionalWithDefault("date", &Table.Date),
+                named.OptionalWithDefault("date_time", &dateTime),
                 named.OptionalWithDefault("bolus", &Table.Bolus	),
                 named.OptionalWithDefault("glucose", &Table.Glucose),
                 named.OptionalWithDefault("xe", &Table.Xe),
             )
-            resList = append(resList, Table)
+            Table.Date = dateTime.Format("02 Jan 06")
+            Table.Time = dateTime.Format("15:04")
+            resYDB = append(resYDB, Table)
         }
         return res.Err()
     })
-    for i, j := 0, len(resList)-1; i < j; i, j = i+1, j-1 {
-        resList[i], resList[j] = resList[j], resList[i]
+    for i, j := 0, len(resYDB)-1; i < j; i, j = i+1, j-1 {
+        resYDB[i], resYDB[j] = resYDB[j], resYDB[i]
     }
-    
-    return resList
+    return resYDB
 }

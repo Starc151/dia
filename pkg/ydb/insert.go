@@ -10,25 +10,22 @@ import (
 )
 
 func Insert(res map[string]float64) {
-	loc, _ := time.LoadLocation("Europe/Moscow")
-    time.Local = loc
-
 	db, ctx, cancel := connect()
 	defer cancel()
 	defer db.Close(ctx)
-	t := uint32(time.Now().Unix())+10800 //поправка на часовой пояс Мск
+	dateTime := uint32(time.Now().Unix())+10800 //поправка на часовой пояс Мск
 	err := db.Table().DoTx(ctx,
 		func(ctx context.Context, tx table.TransactionActor) (err error) {
 			res, err := tx.Execute(ctx, `
-			DECLARE $date AS Datetime;
+			DECLARE $date_time AS Datetime;
 			DECLARE $bolus AS Float;
 			DECLARE $glucose AS Float;
 			DECLARE $xe AS Float;
-			INSERT INTO res ( date, bolus, glucose, xe )
-			VALUES ( $date, $bolus, $glucose, $xe );
+			INSERT INTO res ( date_time, bolus, glucose, xe )
+			VALUES ( $date_time, $bolus, $glucose, $xe );
 		`,
 				table.NewQueryParameters(
-					table.ValueParam("$date", types.DatetimeValue(t)),
+					table.ValueParam("$date_time", types.DatetimeValue(dateTime)),
 					table.ValueParam("$bolus", types.FloatValue(float32(res["bolus"]))),
 					table.ValueParam("$glucose", types.FloatValue(float32(res["glucose"]))),
 					table.ValueParam("$xe", types.FloatValue(float32(res["xe"]))),

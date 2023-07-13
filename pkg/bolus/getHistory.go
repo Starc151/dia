@@ -2,31 +2,48 @@ package bolus
 
 import (
 	"fmt"
-	"strconv"
+	"strings"
 
 	ydb "github.com/Starc151/dia/pkg/ydb"
 )
 
 func GetHistory() string {
-	resultYdb := ydb.Select()
-	if len(resultYdb) == 0{
+	resYdb := ydb.Select()
+	if len(resYdb) == 0{
 		return "Результатов нет"
 	}
-	history := fmt.Sprint(resultYdb[0].Date.Format("02 Jan 06"), "\n")
-	history += strconv.Itoa(len(resultYdb))
-	// history += fmt.Sprint(resultYdb[0].Date.Format("15:04"), ", Gl:", resultYdb[0].Glucose, ", Xe:", resultYdb[0].Xe, ", Bl:", resultYdb[0].Bolus, "\n")
-	// if resultYdb[1].Date.Format("02/Jan") != resultYdb[0].Date.Format("02/Jan"){
-	// 	history += fmt.Sprint(resultYdb[1].Date.Format("15:04"), ", Gl:", resultYdb[1].Glucose, ", Xe:", resultYdb[1].Xe, ", BL:", resultYdb[1].Bolus, "\n")
-	// }
-	// history += "...\n \n"
-	// for i := 2; true; i++ {
-	// 	if resultYdb[i-1].Date.Format("02/Jan") == resultYdb[i].Date.Format("02/Jan") {
-	// 		history += fmt.Sprint(resultYdb[i].Date.Format("02/Jan"), "\n")
-	// 		history += fmt.Sprint(resultYdb[i].Date.Format("15:04"), resultYdb[i].Glucose, resultYdb[i].Xe, resultYdb[i].Bolus, "\n")
-	// 		history += fmt.Sprint(resultYdb[i+1].Date.Format("15:04"), resultYdb[i+1].Glucose, resultYdb[i+1].Xe, resultYdb[i+1].Bolus, "\n")
-	// 		history += "..."
-	// 		break
-	// 	}
-	// }
+
+	day1 := []string{}
+	day2 := []string{}
+	day1 = append(day1, resYdb[0].Date + "\n")
+	lastResDay1 := 0
+	for k, v := range resYdb{
+		if v.Date == resYdb[0].Date{
+			if k < 2 {
+				day1 = append(day1, fmt.Sprint(v.Time, ", Gl:", v.Glucose, ", Xe:", v.Xe, ", Bl:", v.Bolus, "\n"))
+				lastResDay1 = k
+			} else if k == 2{
+				day1 = append(day1, "...\n")
+				lastResDay1 = k
+			} else {
+				lastResDay1 = k
+			}
+		}
+	}
+
+	day2 = append(day2, resYdb[lastResDay1+1].Date + "\n")
+	for k, v := range resYdb{
+		if v.Date == resYdb[lastResDay1+1].Date{
+			if k < (lastResDay1 + 1 + 2)  {
+				day2 = append(day2, fmt.Sprint(v.Time, ", Gl:", v.Glucose, ", Xe:", v.Xe, ", Bl:", v.Bolus, "\n"))
+			} else {
+				day2 = append(day2, "...\n")
+				break
+			}
+		}
+	}
+	history := fmt.Sprint(day1, "\n", day2)
+	history = strings.ReplaceAll(history, "[", "")
+	history = strings.ReplaceAll(history, "]", "")
 	return history
 }
