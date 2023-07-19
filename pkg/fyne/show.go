@@ -1,6 +1,7 @@
 package fyne
 
 import (
+
 	bl "github.com/Starc151/dia/pkg/bolus"
 
 	"fyne.io/fyne/v2"
@@ -12,7 +13,7 @@ import (
 func Show() {
 	a := app.New()
 	w := a.NewWindow("BL")
-	// w.Resize(fyne.NewSize(200, 0))
+	// w.Resize(fyne.NewSize(200, 230))
 	// w.SetFixedSize(true)
 	icon, _ := fyne.LoadResourceFromPath("pkg/fyne/icon.png")
 	w.SetIcon(icon)
@@ -22,10 +23,25 @@ func Show() {
 	xeText := widget.NewLabel("XE: ")
 	xe := onlyNums()
 	bolus := widget.NewLabel("")
-	history := widget.NewLabel(bl.GetHistory())
-	getBolusBtnVis := func ()  {}
+
+	fullHistory := bl.GetFullHistory()
+	history := container.NewVBox()
+	if len(fullHistory) == 0 {
+		history.Add(widget.NewLabel("NO RESULT"))
+	} else {
+		for k, v := range fullHistory {
+			if k > 1 {
+				break
+			}
+			day := bl.GetDayHistory(v)
+			dayW := getHistoryWidget(day)
+			history.Add(dayW)
+		}
+	}
+	
+	getBolusBtnVis := func() {}
 	getBolusBtn := widget.NewButton("Рассчитать болюс",
-		func () {
+		func() {
 			bolus.SetText(
 				bl.GetBolus(
 					glucose.Text,
@@ -33,10 +49,9 @@ func Show() {
 				),
 			)
 			getBolusBtnVis()
-			history.SetText(bl.GetHistory())
 		},
 	)
-	getBolusBtnVis = func ()  {
+	getBolusBtnVis = func() {
 		getBolusBtn.Disable()
 	}
 
