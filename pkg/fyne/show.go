@@ -42,8 +42,9 @@ func Show() {
 		return history
 	}
 	history := t()
-	getBolusBtnVis := func() {}
-	getBolusBtn := widget.NewButton("Рассчитать болюс",
+	bolusBtnVisParam := true
+	bolusBtnVis := func() {}
+	getBolusBtn := widget.NewButton("Calculate bolus",
 		func() {
 			bolus.SetText(
 				bl.GetBolus(
@@ -51,13 +52,26 @@ func Show() {
 					xe.Text,
 				),
 			)
-			getBolusBtnVis()
+			bolusBtnVis()
 			history.RemoveAll()
 			history.Add(t())
 		},
 	)
-	getBolusBtnVis = func() {
-		getBolusBtn.Disable()
+	updBtn := widget.NewButton("upd",
+		func() {
+			bolusBtnVis()
+		},
+	)
+	updBtn.Disable()
+	bolusBtnVis = func() {
+		bolusBtnVisParam = !bolusBtnVisParam
+		if !bolusBtnVisParam {
+			getBolusBtn.Disable()
+			updBtn.Enable()
+		} else {
+			getBolusBtn.Enable()
+			updBtn.Disable()
+		}
 	}
 
 	tabs := container.NewAppTabs(
@@ -68,7 +82,7 @@ func Show() {
 					glucoseText, glucose,
 					xeText, xe,
 				),
-				getBolusBtn,
+				container.NewGridWithColumns(2, getBolusBtn, updBtn),
 				bolus,
 			),
 		),
