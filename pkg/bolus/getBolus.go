@@ -3,8 +3,9 @@ package bolus
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 
-	as "github.com/Starc151/dia/pkg/assistant"
 	ydb "github.com/Starc151/dia/pkg/ydb"
 )
 
@@ -18,8 +19,13 @@ func GetBolus(glucoseStr, xeStr string) string {
 	sensitivity, carbohydrate := getCoefficients()
 
 	indicators := make(map[string]float64)
-	indicators["glucose"] = as.ToFloat(glucoseStr)
-	indicators["xe"] = as.ToFloat(xeStr)
+	toFloat := func (in string) float64 {
+				in = strings.ReplaceAll(in, ",", ".")
+				out, _ := strconv.ParseFloat(in, 64)
+				return out
+			}
+	indicators["glucose"] = toFloat(glucoseStr)
+	indicators["xe"] = toFloat(xeStr)
 	indicators["bolus"] = 0.0
 
 	if indicators["glucose"] == 0.0 {
