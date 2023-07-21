@@ -1,7 +1,6 @@
 package fyne
 
 import (
-
 	bl "github.com/Starc151/dia/pkg/bolus"
 
 	"fyne.io/fyne/v2"
@@ -25,20 +24,24 @@ func Show() {
 	bolus := widget.NewLabel("")
 
 	fullHistory := bl.GetFullHistory()
-	history := container.NewVBox()
-	if len(fullHistory) == 0 {
-		history.Add(widget.NewLabel("NO RESULT"))
-	} else {
-		for k, v := range fullHistory {
-			if k > 1 {
-				break
+	t := func () *fyne.Container {
+		fullHistory = bl.GetFullHistory()
+		history := container.NewVBox()
+			if len(fullHistory) == 0 {
+				history.Add(widget.NewLabel("NO RESULT"))
+			} else {
+				for k, v := range fullHistory {
+					if k > 1 {
+						break
+					}
+					day := bl.GetDayHistory(v)
+					dayW := getHistoryWidget(day)
+					history.Add(dayW)
+				}
 			}
-			day := bl.GetDayHistory(v)
-			dayW := getHistoryWidget(day)
-			history.Add(dayW)
-		}
+		return history
 	}
-	
+	history := t()
 	getBolusBtnVis := func() {}
 	getBolusBtn := widget.NewButton("Рассчитать болюс",
 		func() {
@@ -49,6 +52,8 @@ func Show() {
 				),
 			)
 			getBolusBtnVis()
+			history.RemoveAll()
+			history.Add(t())
 		},
 	)
 	getBolusBtnVis = func() {

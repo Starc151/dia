@@ -1,7 +1,6 @@
 package fyne
 
 import (
-	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	"fyne.io/fyne/v2/container"	
@@ -15,7 +14,6 @@ func getHistoryWidget(historyDay []string) *fyne.Container {
 	btn := widget.NewButton("Show", func() {
 		vis = !vis
 		fVis()
-		fmt.Println(cont.MinSize().Height)
 	})
 	fVis = func() {
 		if !vis {
