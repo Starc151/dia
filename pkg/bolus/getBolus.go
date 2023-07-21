@@ -27,15 +27,21 @@ func GetBolus(glucoseStr, xeStr string) string {
 	indicators["glucose"] = toFloat(glucoseStr)
 	indicators["xe"] = toFloat(xeStr)
 	indicators["bolus"] = 0.0
-
+	glucoseNill := false
 	if indicators["glucose"] == 0.0 {
 		indicators["glucose"] = idealGlucose
+		glucoseNill = !glucoseNill
 	}
-
+	insert := func ()  {
+		if glucoseNill {
+			indicators["glucose"] = 0.0
+		}
+		ydb.Insert(indicators)
+	}
+	defer insert()
 	corectGlucose := math.Abs(indicators["glucose"] - idealGlucose)
 	corrctXe := corectGlucose / (sensitivity * carbohydrate)
 	
-	defer ydb.Insert(indicators)
 	if indicators["glucose"] <= lowerGlucose - 1.0 {
 		if indicators["xe"] != 0.0 {
 			indicators["xe"] -= corrctXe
