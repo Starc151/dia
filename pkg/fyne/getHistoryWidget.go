@@ -28,8 +28,11 @@ func getHistoryWidget(historyDay []string) *fyne.Container {
 	if len(historyDay) == 1 {
 		cont.Add(visPart)
 	} else {
-		cont.Add(visPart)
-		cont.Add(btn)
+		srcv := container.NewVScroll(
+			container.NewVBox(visPart, btn),
+		)
+		srcv.SetMinSize(fyne.NewSize(0, 120))
+		cont.Add(srcv)
 	}
 	return cont
 }
