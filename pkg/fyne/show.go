@@ -107,9 +107,9 @@ func Show() {
 	xe.Resize(fyne.NewSize(40, 30))
 	xe.Move(fyne.NewPos(145, 25))
 	getBolusBtn.Resize(fyne.NewSize(150, 30))
-	getBolusBtn.Move(fyne.NewPos(5, 5))
+	getBolusBtn.Move(fyne.NewPos(5, 20))
 	updBtn.Resize(fyne.NewSize(30, 30))
-	updBtn.Move(fyne.NewPos(160, 5))
+	updBtn.Move(fyne.NewPos(160, 20))
 
 	w.ShowAndRun()
 }
