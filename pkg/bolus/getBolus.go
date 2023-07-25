@@ -12,7 +12,6 @@ import (
 const (
 	lowerGlucose float64 = 7.0
 	upperGlucose float64 = 9.0
-	// Идеальный уровень глюкозы
 	idealGlucose = (lowerGlucose + upperGlucose) / 2
 )
 func GetBolus(glucoseStr, xeStr string) string {
