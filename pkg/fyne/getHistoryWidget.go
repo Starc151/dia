@@ -20,7 +20,7 @@ func getHistoryWidget(historyDay []string) *fyne.Container {
 		cont.Add(visPart)
 	} else {
 		scrV := container.NewVScroll(visPart)
-		scrV.SetMinSize(fyne.NewSize(0, 105))
+		scrV.SetMinSize(fyne.NewSize(0, 90))
 		cont.Add(scrV)
 		cont.Add(btn)
 	}

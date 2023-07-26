@@ -12,8 +12,6 @@ import (
 func Show() {
 	a := app.New()
 	w := a.NewWindow("BL")
-	w.Resize(fyne.NewSize(205, 0))
-	w.SetFixedSize(true)
 	icon, _ := fyne.LoadResourceFromPath("pkg/fyne/icon.png")
 	w.SetIcon(icon)
 	iconUpdBtn, _ := fyne.LoadResourceFromPath("pkg/fyne/iconUpdBtn.png")
@@ -23,7 +21,7 @@ func Show() {
 	xeText := widget.NewLabel("XE: ")
 	xe := onlyNums()
 	bolus := widget.NewLabel("")
-	
+
 	fullHistory := bl.GetFullHistory()
 	getHistory := func() *fyne.Container {
 		fullHistory = bl.GetFullHistory()
@@ -44,7 +42,6 @@ func Show() {
 	}
 	history := getHistory()
 
-	
 	bolusBtnVis := func() {}
 	getBolusBtn := widget.NewButton("Calculate bolus",
 		func() {
@@ -79,7 +76,7 @@ func Show() {
 			updBtn.SetIcon(nil)
 		}
 	}
-	
+
 	bolusLayout := container.NewWithoutLayout(
 		glucoseText, glucose,
 		xeText, xe,
